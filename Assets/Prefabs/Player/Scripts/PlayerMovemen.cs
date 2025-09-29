@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary> 
 /// Permite el comportamiento del movimiento del jugador
@@ -24,6 +25,11 @@ public class PlayerMovemen : MonoBehaviour
     /// Iindica cada cuanto tiempo debe aplicarse la fuerza
     /// </summary>
     private float intervaloTiempo;
+
+    /// <summary>
+    /// Inicia la velocidad aplicada en el movimiento lateral
+    /// </summary>
+    private float velocidadLatetral;
     #endregion
 
 
@@ -36,9 +42,17 @@ public class PlayerMovemen : MonoBehaviour
         fuerzaPorAplicar = new Vector3(0, 0,300f);
         tiempoDesdeUltimaFuerza = 0f;
         intervaloTiempo = 2f;
+        velocidadLatetral = 2f;
 
     }
 
+    private void Update()
+    {
+
+
+        float direccion = Input.GetAxis("Horizontal");
+        transform.Translate(direccion * velocidadLatetral * Time.deltaTime, 0, 0);
+    }
     private void FixedUpdate()
     {
         tiempoDesdeUltimaFuerza += Time.fixedDeltaTime;
