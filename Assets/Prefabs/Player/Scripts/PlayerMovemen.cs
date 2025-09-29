@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary> 
 /// Permite el comportamiento del movimiento del jugador
@@ -24,6 +25,17 @@ public class PlayerMovemen : MonoBehaviour
     /// Iindica cada cuanto tiempo debe aplicarse la fuerza
     /// </summary>
     private float intervaloTiempo;
+
+    /// <summary>
+    /// Inicia la velocidad aplicada en el movimiento lateral
+    /// </summary>
+    private float velocidadLatetral;
+
+    /// <summary>
+    /// Representa la estrategia de movimiento
+    /// </summary>
+    private IMovementStrategy strategy;
+
     #endregion
 
 
@@ -36,9 +48,15 @@ public class PlayerMovemen : MonoBehaviour
         fuerzaPorAplicar = new Vector3(0, 0,300f);
         tiempoDesdeUltimaFuerza = 0f;
         intervaloTiempo = 2f;
-
+        velocidadLatetral = 10f;
+        SetStrategy(new MovimientoAceledaro());
     }
 
+    private void Update()
+    {
+
+        strategy.Move(transform, velocidadLatetral);  
+    }
     private void FixedUpdate()
     {
         tiempoDesdeUltimaFuerza += Time.fixedDeltaTime;
@@ -52,8 +70,18 @@ public class PlayerMovemen : MonoBehaviour
 
 
 
-#endregion
+    #endregion
+
+
+    #region Logica del Script
+
+
+    public void SetStrategy(IMovementStrategy strategy)
+    {
+        this.strategy = strategy;
+    }
 
 
 
+    #endregion
 }
