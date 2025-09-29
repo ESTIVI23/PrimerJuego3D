@@ -30,6 +30,12 @@ public class PlayerMovemen : MonoBehaviour
     /// Inicia la velocidad aplicada en el movimiento lateral
     /// </summary>
     private float velocidadLatetral;
+
+    /// <summary>
+    /// Representa la estrategia de movimiento
+    /// </summary>
+    private IMovementStrategy strategy;
+
     #endregion
 
 
@@ -42,16 +48,14 @@ public class PlayerMovemen : MonoBehaviour
         fuerzaPorAplicar = new Vector3(0, 0,300f);
         tiempoDesdeUltimaFuerza = 0f;
         intervaloTiempo = 2f;
-        velocidadLatetral = 2f;
-
+        velocidadLatetral = 10f;
+        SetStrategy(new MovimientoAceledaro());
     }
 
     private void Update()
     {
 
-
-        float direccion = Input.GetAxis("Horizontal");
-        transform.Translate(direccion * velocidadLatetral * Time.deltaTime, 0, 0);
+        strategy.Move(transform, velocidadLatetral);  
     }
     private void FixedUpdate()
     {
@@ -66,8 +70,18 @@ public class PlayerMovemen : MonoBehaviour
 
 
 
-#endregion
+    #endregion
+
+
+    #region Logica del Script
+
+
+    public void SetStrategy(IMovementStrategy strategy)
+    {
+        this.strategy = strategy;
+    }
 
 
 
+    #endregion
 }
